@@ -1,8 +1,34 @@
 <script setup lang="ts">
+import { ref, computed } from 'vue';
 import type { Vehicle } from '../types/vehicle';
+import { useVehicleStore } from '../stores/vehicles';
+import { useToast } from 'vue-toastification';
+
 
 // Define props correctly
 const props = defineProps<{ vehicle: Vehicle }>();
+const bidAmount = ref('');
+const store = useVehicleStore();
+const toast = useToast();
+
+const isValidBid = computed(() => {
+  if(bidAmount.value === '')return false;
+  if (!isNaN(Number(bidAmount.value))) return true;
+});
+
+function handleBid() {
+  const bidAmountValue = Number(bidAmount.value);
+  const vehiclePrice = Number(props.vehicle.details.price);
+
+  if (bidAmountValue <= vehiclePrice) {
+    toast.error('Bid amount should be greater than the vehicle price');
+    return;
+  }
+
+  store.addBid(props.vehicle, bidAmountValue);
+  toast.success('Vehicle added to biddings successfully!');
+  bidAmount.value = '';
+}
 </script>
 
 <template>
@@ -28,6 +54,8 @@ const props = defineProps<{ vehicle: Vehicle }>();
           min="0"
         >
         <button
+          @click="handleBid"
+          :disabled="!isValidBid"
           class="btn btn-primary"
           style="width: 100%"
         >

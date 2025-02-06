@@ -1,100 +1,49 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import { useVehicleStore } from './stores/vehicles';
 import VehicleCard from './components/VehicleCard.vue';
-import BiddingDrawer from './components/BiddingDrawer.vue'
+import BiddingDrawer from './components/BiddingDrawer.vue';
 
+const store = useVehicleStore();
+const isDrawerOpen = ref(false);
 const brands = ['BMW', 'Tesla', 'Porsche', 'Lamborghini', 'Mercedes-Benz'];
-const vehicles = [
-  {
-    "id": 1,
-    "name": "I8",
-    "details": {
-      "currency": "USD",
-      "price": "10000000",
-      "color": "White",
-      "brand": "BMW",
-      "manufactureYear": "2020",
-      "image": "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?cs=srgb&dl=pexels-mikebirdy-170811.jpg&fm=jpg",
-      "description": "What makes both BMW i8 models unique is the exceptional lightweight concept called LifeDrive architecture..."
-    }
-  },
-  {
-    "id": 2,
-    "name": "Model S",
-    "details": {
-      "currency": "USD",
-      "price": "9000000",
-      "color": "Black",
-      "brand": "Tesla",
-      "manufactureYear": "2022",
-      "image": "https://images.pexels.com/photos/305070/pexels-photo-305070.jpeg",
-      "description": "The Tesla Model S offers an all-electric powertrain, cutting-edge autonomous driving features, and a luxurious interior."
-    }
-  },
-  {
-    "id": 3,
-    "name": "911 Turbo S",
-    "details": {
-      "currency": "USD",
-      "price": "15000000",
-      "color": "Red",
-      "brand": "Porsche",
-      "manufactureYear": "2021",
-      "image": "https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg",
-      "description": "The Porsche 911 Turbo S is a high-performance sports car with a twin-turbo engine, advanced aerodynamics, and superior handling."
-    }
-  },
-  {
-    "id": 4,
-    "name": "Huracan EVO",
-    "details": {
-      "currency": "USD",
-      "price": "20000000",
-      "color": "Yellow",
-      "brand": "Lamborghini",
-      "manufactureYear": "2023",
-      "image": "https://images.pexels.com/photos/462242/pexels-photo-462242.jpeg",
-      "description": "The Lamborghini Huracan EVO delivers an exhilarating driving experience with its powerful V10 engine and aggressive design."
-    }
-  },
-  {
-    "id": 5,
-    "name": "AMG GT",
-    "details": {
-      "currency": "USD",
-      "price": "12000000",
-      "color": "Blue",
-      "brand": "Mercedes-Benz",
-      "manufactureYear": "2021",
-      "image": "https://images.pexels.com/photos/56720/pexels-photo-56720.jpeg",
-      "description": "The Mercedes-AMG GT combines luxury and performance with a handcrafted V8 engine, striking aesthetics, and cutting-edge technology."
-    }
-  }
-];
+
+onMounted(() => {
+  store.fetchVehicles();
+});
 </script>
 
 <template>
   <div class="container">
     <div class="header">
       <h1 class="title">Vehicle Bidding</h1>
-      <button class="btn btn-primary" >View Biddings</button>
+      <button class="btn btn-primary" @click="isDrawerOpen = true">
+        View Biddings
+      </button>
     </div>
-  
-  <div class="filter-section">
-    <label class="filter-label">Filter by Brand:</label>
-    <select class="brand-select">
-      <option value="">All Brands</option>
-      <option v-for="brand in brands">{{ brand }}</option>
-    </select>
+
+    <div class="filter-section">
+      <label class="filter-label">Filter by Brand:</label>
+      <select v-model="store.selectedBrand" class="brand-select">
+        <option value="">All Brands</option>
+        <option v-for="brand in brands" :key="brand" :value="brand">
+          {{ brand }}
+        </option>
+      </select>
+    </div>
+    <div class="grid">
+      <VehicleCard
+        v-for="vehicle in store.filteredVehicles"
+        :key="vehicle.id"
+        :vehicle="vehicle"
+      />
+    </div>
+
+    <BiddingDrawer
+      :is-open="isDrawerOpen"
+      @close="isDrawerOpen = false"
+    />
   </div>
-<div class="grid">
-  <VehicleCard
-  v-for="vehicle in vehicles"
-  :key="vehicle.id"
-  :vehicle="vehicle"
-  />
-</div>
-<BiddingDrawer/>
-</div>
 </template>
 
 <style scoped>
