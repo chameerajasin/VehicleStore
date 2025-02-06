@@ -4,9 +4,10 @@ import type { Vehicle } from '../types/vehicle';
 import { useVehicleStore } from '../stores/vehicles';
 import { useToast } from 'vue-toastification';
 
+const props = defineProps<{
+  vehicle: Vehicle;
+}>();
 
-// Define props correctly
-const props = defineProps<{ vehicle: Vehicle }>();
 const bidAmount = ref('');
 const store = useVehicleStore();
 const toast = useToast();
@@ -33,10 +34,10 @@ function handleBid() {
 
 <template>
   <div class="vehicle-card">
-    <img
-    :src="vehicle.details.image"
-    :alt="vehicle.name" 
-    class="vehicle-image"
+    <img 
+      :src="vehicle.details.image" 
+      :alt="vehicle.name" 
+      class="vehicle-image"
     >
     <div class="vehicle-details">
       <h3 class="vehicle-title">{{ vehicle.name }} ({{ vehicle.details.manufactureYear }})</h3>
@@ -49,6 +50,7 @@ function handleBid() {
       <div>
         <input
           type="number"
+          v-model="bidAmount"
           class="input"
           :placeholder="`Enter bid amount in ${vehicle.details.currency}`"
           min="0"
@@ -178,5 +180,6 @@ function handleBid() {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
+
 
 </style>

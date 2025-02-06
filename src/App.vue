@@ -112,6 +112,18 @@ header {
   display: block;
   margin: 0 auto 2rem;
 }
+/* Toast Customization */
+.Vue-Toastification__toast {
+  border-radius: 0.5rem !important;
+}
+
+.Vue-Toastification__toast--success {
+  background-color: var(--success-color) !important;
+}
+
+.Vue-Toastification__toast--error {
+  background-color: var(--error-color) !important;
+}
 
 @media (min-width: 1024px) {
   header {
