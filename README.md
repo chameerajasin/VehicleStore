@@ -1,39 +1,75 @@
-# VehicleStore
+# Vehicle Bidding WebApp
 
-This template should help get you started developing with Vue 3 in Vite.
+This is a Vue.js project configured with Vite, TypeScript, and Vitest for testing.
 
-## Recommended IDE Setup
+## Table of Contents
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
+- [Project Setup](#project-setup)
+- [Development](#development)
+- [Building](#building)
+- [Preview](#preview)
+- [Testing](#testing)
+- [License](#license)
 
 ## Project Setup
 
-```sh
+### Prerequisites
+
+Ensure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (version >= 20.0)
+- [npm](https://www.npmjs.com/) for managing dependencies.
+
+### Install Dependencies
+
+After cloning this repository, install the required dependencies:
+
+```bash
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+## Development
 
-```sh
+To start the development server, use the following command:
+
+```bash
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+This will launch the Vite development server, and your application will be available at `http://localhost:5175` (or whichever port Vite chooses).
 
-```sh
+## Building
+
+To build the project for production, use:
+
+```bash
 npm run build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+This will:
+1. Run TypeScript type checking with `vue-tsc`.
+2. Build the production-ready assets using `vite build`.
 
-```sh
-npm run test:unit
+The generated files will be placed in the `dist/` folder.
+
+## Preview
+
+To preview the production build locally, run the following command:
+
+```bash
+npm run preview
 ```
+
+This will start a local server to preview the built project. You can use this command to test the production build before deploying.
+
+## Testing
+
+This project uses **Vitest** for unit and component testing. To run tests, use:
+
+```bash
+npm run test
+```
+
+## License
+
+This project is licensed under the MIT License
